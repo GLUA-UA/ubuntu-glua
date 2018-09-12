@@ -1,0 +1,7 @@
+---
+# tasks file for common
+
+- name: Code Editor
+  package:
+    name: openjdk-10-jdk
+    

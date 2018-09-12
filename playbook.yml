@@ -1,0 +1,10 @@
+---
+- hosts: all
+  tasks:
+    - name: Base System Setup
+      apt: name={{item}} state=present
+      with_items:
+        - xubuntu-core
+        - chromium-browser
+      become: yes
+      become_method: sudo
