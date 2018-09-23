@@ -1,5 +1,0 @@
-etckeeper
-
-#Setup Graphical Environment
-xubuntu-core^
-
