@@ -1,7 +1,7 @@
 ---
 # tasks file for common
 
-- name: Code Editor
+- name: Install xubuntu-core
   package:
-    name: openjdk-10-jdk
-    
+    name: xubuntu-core
+    state: present

@@ -1,7 +1,2 @@
 ---
 # tasks file for P1
-- name: Install & Setup Java
-  auto:
-    pkg: openjdk-8-jdk
-    state: present
-    update_cache: true
