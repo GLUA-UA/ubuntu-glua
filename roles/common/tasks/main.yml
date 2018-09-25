@@ -43,3 +43,45 @@
   package:
     name: xubuntu-core
     state: present
+
+- name: Install firefox
+  package:
+    name: firefox
+    state: present
+
+- name: Install evince
+  package:
+    name: evince
+    state: present
+
+- name: Install libreoffice
+  package:
+    name: libreoffice
+    state: present
+
+- name: Install supertux
+  package:
+    name: supertux
+    state: present
+
+- name: Install vlc
+  package:
+    name: vlc
+    state: present
+
+- name: Check if vscode is installed
+  command: dpkg-query -W vscode
+  register: vscode_check_deb
+  failed_when: vscode_check_deb.rc > 1
+  changed_when: vscode_check_deb.rc == 1
+
+- name: Download vscode
+  get_url: 
+    url="https://go.microsoft.com/fwlink/?LinkID=760868"
+    dest="/home/vagrant/Downloads/vscode.deb"
+  when: vscode_check_deb.rc == 1
+
+- name: Install vscode
+  apt: deb="/home/vagrant/Downloads/vscode.deb"
+  sudo: true
+  when: vscode_check_deb.rc == 1

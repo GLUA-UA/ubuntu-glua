@@ -4,3 +4,5 @@
   become_user: root
   roles:
     - role: common
+    - role: P1
+    - role: MPEI

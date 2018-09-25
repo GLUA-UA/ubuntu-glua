@@ -1,2 +1,11 @@
 ---
 # tasks file for P1
+
+- name: Install geany
+  package:
+    name: geany
+    state: present
+- name: Install openjdk-8-jdk
+  package:
+    name: openjdk-8-jdk
+    state: present
