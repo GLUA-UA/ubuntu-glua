@@ -1,5 +1,43 @@
 ---
 # tasks file for common
+- name: Install locales
+  package:
+    name: locales
+    state: present
+
+- name: Select default locale and keymap
+  shell:
+    locale-gen pt_PT;
+    locale-gen pt_PT.UTF-8;
+    update-locale LANG=pt_PT.UTF-8;
+    localectl set-keymap --no-convert pt;
+    echo 'setxkbmap pt' >> /home/vagrant/.bashrc;
+  args:
+    executable: /bin/bash
+
+  
+
+  #- name: Create user 'glua'
+#  user: 
+#    name: glua
+#    shell: /bin/bash
+#    uid: 1002
+#    groups: admin,sudo
+#    password: shDYctXqmP2D6
+#    state: present
+#    system: yes
+
+#- name: Change GID of 'glua'
+#  group:
+#    name: glua
+#    gid: 1002
+#    state: present
+
+#- name: Remove user 'vagrant'
+#  user: 
+#    name: vagrant
+#    state: absent
+#    remove: yes
 
 - name: Install xubuntu-core
   package:
