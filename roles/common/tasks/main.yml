@@ -11,42 +11,51 @@
     locale-gen pt_PT.UTF-8;
     update-locale LANG=pt_PT.UTF-8;
     localectl set-keymap --no-convert pt;
-    echo 'setxkbmap pt' >> /home/vagrant/.bashrc;
+    if ! grep -q "setxkbmap pt" ~/.bashrc; then
+      echo 'setxkbmap pt' >> /home/vagrant/.bashrc;
+    fi
   args:
     executable: /bin/bash
 
-  
 
-  #- name: Create user 'glua'
-#  user: 
-#    name: glua
-#    shell: /bin/bash
-#    uid: 1002
-#    groups: admin,sudo
-#    password: shDYctXqmP2D6
-#    state: present
-#    system: yes
+- name: Create user 'glua'
+  user: 
+    name: glua
+    password: $6$/00FKYccjoihoqKB$59oFRn8ehB5HdjhNGjTSNgFoOlhLdxZrQRErORe7SQFVzpvoi5hgUNugchqm9d76FBONfU6fu5YtcJ0rUx4Sj.
+    shell: /bin/bash
+    groups: admin,sudo
+    append: yes
+    state: present
+    system: no
 
-#- name: Change GID of 'glua'
-#  group:
-#    name: glua
-#    gid: 1002
-#    state: present
+- name: Remove user 'ubuntu'
+  user: 
+    name: ubuntu
+    remove: yes
+    state: absent
 
-#- name: Remove user 'vagrant'
-#  user: 
-#    name: vagrant
-#    state: absent
-#    remove: yes
+- name: Fix glua_HOME permissions
+  file:
+    dest: /home/glua/
+    recurse: yes
+    owner: glua
+    group: glua
+    state: directory
 
 - name: Install xubuntu-core
   package:
     name: xubuntu-core
     state: present
 
-- name: Install firefox
+- name: Hide vagrant user
+  copy:
+    dest: /var/lib/AccountsService/users/vagrant
+    content: 
+      SystemAccount=true
+
+- name: Install chromium
   package:
-    name: firefox
+    name: chromium-browser
     state: present
 
 - name: Install evince
@@ -69,6 +78,11 @@
     name: vlc
     state: present
 
+- name: Install openjdk-8-jdk
+  package:
+    name: openjdk-8-jdk
+    state: present
+
 - name: Check if vscode is installed
   command: dpkg-query -W vscode
   register: vscode_check_deb
@@ -78,10 +92,9 @@
 - name: Download vscode
   get_url: 
     url="https://go.microsoft.com/fwlink/?LinkID=760868"
-    dest="/home/vagrant/Downloads/vscode.deb"
+    dest="/tmp/vscode.deb"
   when: vscode_check_deb.rc == 1
 
 - name: Install vscode
-  apt: deb="/home/vagrant/Downloads/vscode.deb"
-  sudo: true
+  apt: deb="/tmp/vscode.deb"
   when: vscode_check_deb.rc == 1

@@ -1,0 +1,8 @@
+---
+# tasks file for LABI---
+# tasks file for P1
+
+- name: Install geany
+  package:
+    name: geany
+    state: present

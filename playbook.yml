@@ -1,8 +1,9 @@
 ---
 - hosts: all
   become: true
-  become_user: root
+  become_method: sudo
   roles:
     - role: common
-    - role: P1
-    - role: MPEI
+    - role: ECT
+    - role: EET
+    - role: LEI

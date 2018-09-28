@@ -1,7 +1,0 @@
----
-# tasks file for MPEI
-
-- name: Install octave
-  package:
-    name: octave
-    state: present
