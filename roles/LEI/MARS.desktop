@@ -1,0 +1,7 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=MARS
+Exec=java -jar /opt/mars/Mars4_5.jar
+Icon=/opt/mars/Mars%20140.jpg
+Categories=Development; 

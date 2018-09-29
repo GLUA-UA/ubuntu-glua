@@ -17,4 +17,22 @@
     url="http://courses.missouristate.edu/KenVollmar/mars/MARS_4_5_Aug2014/Mars4_5.jar"
     dest="/opt/mars/"
   when: stat_mars.stat.exists == False
+
+- name: Download MARS thumbnail
+  get_url:
+    url: http://courses.missouristate.edu/KenVollmar/mars/Mars%20140.jpg
+    dest: /opt/mars/
+
+- name: Add MARS to xfce menu
+  copy:
+    src: ../MARS.desktop
+    dest: /usr/share/applications
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Install python idle3
+  package:
+    name: idle3
+    state: present
   

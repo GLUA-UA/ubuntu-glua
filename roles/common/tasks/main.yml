@@ -5,19 +5,6 @@
     name: locales
     state: present
 
-- name: Select default locale and keymap
-  shell:
-    locale-gen pt_PT;
-    locale-gen pt_PT.UTF-8;
-    update-locale LANG=pt_PT.UTF-8;
-    localectl set-keymap --no-convert pt;
-    if ! grep -q "setxkbmap pt" ~/.bashrc; then
-      echo 'setxkbmap pt' >> /home/vagrant/.bashrc;
-    fi
-  args:
-    executable: /bin/bash
-
-
 - name: Create user 'glua'
   user: 
     name: glua
@@ -42,9 +29,18 @@
     group: glua
     state: directory
 
+- name: Change hostname
+  hostname:
+    name: ubuntu-glua
+
 - name: Install xubuntu-core
   package:
     name: xubuntu-core
+    state: present
+
+- name: Install xfce4-settings
+  package:
+    name: xfce4-settings
     state: present
 
 - name: Hide vagrant user
@@ -52,6 +48,27 @@
     dest: /var/lib/AccountsService/users/vagrant
     content: 
       SystemAccount=true
+
+- name: Set keymap
+  copy:
+    src: ../keymap.sh
+    dest: /etc/profile.d/
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Copy custom wallpaper to VM
+  copy:
+    src: ../ubuntu-glua-wallpaper.png
+    dest: /usr/share/xfce4/backdrops/
+    owner: root
+    group: root
+    mode: 076
+
+- name: Add GLUA mirrors, Set custom wallpaper, Select locale
+  script: ../script.sh
+  args:
+    executable: /bin/bash
 
 - name: Install chromium
   package:
@@ -68,14 +85,34 @@
     name: libreoffice
     state: present
 
+- name: Install gedit
+  package:
+    name: gedit
+    state: present
+
 - name: Install supertux
   package:
     name: supertux
     state: present
 
+- name: Install minesweeper
+  package:
+    name: games-minesweeper
+    state: present
+
+- name: Install cowsay
+  package:
+    name: cowsay
+    state: present
+
 - name: Install vlc
   package:
     name: vlc
+    state: present
+
+- name: Install mirage
+  package:
+    name: mirage
     state: present
 
 - name: Install openjdk-8-jdk
@@ -84,7 +121,7 @@
     state: present
 
 - name: Check if vscode is installed
-  command: dpkg-query -W vscode
+  command: dpkg-query -W code
   register: vscode_check_deb
   failed_when: vscode_check_deb.rc > 1
   changed_when: vscode_check_deb.rc == 1
