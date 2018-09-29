@@ -24,11 +24,13 @@ fi
 #   Set custom wallpaper   #
 ############################
 
-cd /usr/share/xfce4/backdrops;
-# Já não é preciso, visto que usamos o 'copy' do ansible
-# wget http://glua.ua.pt/assets/img/ubuntu-glua-wallpaper.png;
-mv xubuntu-bionic.png xubuntu-bionic-backup.png;
-mv ubuntu-glua-wallpaper.png xubuntu-bionic.png;
+if [ ! -f /usr/share/xfce4/backdrops/xubuntu-bionic-backup.png ]; then
+    cd /usr/share/xfce4/backdrops;
+    # Já não é preciso, visto que usamos o 'copy' do ansible
+    # wget http://glua.ua.pt/assets/img/ubuntu-glua-wallpaper.png;
+    mv xubuntu-bionic.png xubuntu-bionic-backup.png;
+    mv ubuntu-glua-wallpaper.png xubuntu-bionic.png;
+fi
 
 ############################
 #        Set locale        #
