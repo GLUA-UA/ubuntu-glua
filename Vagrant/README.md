@@ -1,5 +1,8 @@
 # ubuntu-glua
 
+#Este projecto foi abandonado devido ao facto de até à data em questão o vagrant não suportar o export de boxes para virtualbox appliances.
+
+
 ## Requisitos
 * Vagrant
 * ansible
